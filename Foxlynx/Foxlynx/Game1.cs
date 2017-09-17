@@ -26,8 +26,10 @@ namespace Foxlynx
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            graphics.PreferredBackBufferWidth = (int)ScreenManager.Instance.Dimension.X;
+            graphics.PreferredBackBufferHeight = (int)ScreenManager.Instance.Dimension.Y;
+            graphics.ApplyChanges();
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -40,7 +42,7 @@ namespace Foxlynx
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            ScreenManager.Instance.LoadContent(Content);
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace Foxlynx
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            ScreenManager.Instance.UnloadContent();
         }
 
         /// <summary>
@@ -62,7 +64,7 @@ namespace Foxlynx
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            ScreenManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -73,9 +75,9 @@ namespace Foxlynx
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            ScreenManager.Instance.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
