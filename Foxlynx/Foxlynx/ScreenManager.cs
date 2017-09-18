@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -13,17 +14,15 @@ using Foxlynx.Components;
 
 namespace Foxlynx
 {
-    class ScreenManager
+    public class ScreenManager
     {
 
         private static ScreenManager instance;
         public Vector2 Dimension { get; private set; }
+        public ContentManager Content { get; private set; }
+        XmlManager<GameScreen> xmlGameScreenManager;
 
-        private List<Entity> entities;
-
-        private List<ColliderComponent> colliders;
-
-        private Player player;
+        GameScreen currentScreen, newScreen;
 
         public static ScreenManager Instance
         {
@@ -39,59 +38,43 @@ namespace Foxlynx
         public ScreenManager()
         {
             Dimension = new Vector2(1280, 720);
+            currentScreen = new SplashScreen();
+            xmlGameScreenManager = new XmlManager<GameScreen>();
+            xmlGameScreenManager.Type = currentScreen.GetType();
+            currentScreen = xmlGameScreenManager.Load("Load/SplashScreen.xml");
+        }
+
+        public void ChangeScreen(string name)
+        {
+            newScreen = (GameScreen)Activator.CreateInstance(Type.GetType("Foxlynx." + name));
+            currentScreen.UnloadContent();
+            currentScreen = newScreen;
+            xmlGameScreenManager.Type = currentScreen.GetType();
+            if(File.Exists(currentScreen.XmlPath))
+                currentScreen = xmlGameScreenManager.Load(currentScreen.XmlPath);
+            currentScreen.LoadContent();
         }
 
         public void LoadContent(ContentManager content)
         {
-            entities = new List<Entity>();
-            colliders = new List<ColliderComponent>();
-
-            /*** Player ***/
-            player = new Player(content.Load<Texture2D>("character"));
-            player.SetPosition(25, 25);
-            player.SetSize(32, 32);
-            player.AddComponent(new ColliderComponent());
-
-            //colliders.Add(player.GetComponent<ColliderComponent>());
-            entities.Add(player);
-
-            /*** Wall ***/
-            Entity entity = new Entity(content.Load<Texture2D>("stone"));
-            entity.SetPosition(250, 250);
-            entity.SetSize(32, 128);
-            entity.AddComponent(new ColliderComponent());
-
-            colliders.Add(entity.GetComponent<ColliderComponent>());
-            entities.Add(entity);
+            this.Content = new ContentManager(content.ServiceProvider, "Content");
+            currentScreen.LoadContent();
         }
 
         public void UnloadContent()
         {
-            
+            currentScreen.UnloadContent();
         }
 
         public void Update(GameTime gameTime)
         {
             InputManager.Instance.Update();
-
-            foreach (Entity entity in entities)
-                entity.Update(gameTime);
-
-            foreach (ColliderComponent collider in colliders)
-                collider.CheckCollision(player.GetComponent<ColliderComponent>(), 1.0f);
-
-            entities.Sort();
+            currentScreen.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
-                DepthStencilState.None, RasterizerState.CullCounterClockwise);
-
-            foreach (Entity entity in entities)
-                entity.Draw(spriteBatch);
-
-            spriteBatch.End();
+            currentScreen.Draw(spriteBatch);
         }
 
     }

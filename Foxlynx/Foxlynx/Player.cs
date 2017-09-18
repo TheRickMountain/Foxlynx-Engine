@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Foxlynx
 {
-    class Player : Entity
+    public class Player : Entity
     {
 
         private int speed = 100;
@@ -36,11 +36,11 @@ namespace Foxlynx
             if (xaxis != 0 || yaxis != 0)
                 length = speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Velocity.X = (float)MathUtils.getLengthdirX(length, direction);
-            Velocity.Y = (float)MathUtils.getLengthdirY(length, direction);
+            xVelocity = (float)MathUtils.getLengthdirX(length, direction);
+            yVelocity = (float)MathUtils.getLengthdirY(length, direction);
 
-            Body.X += (int)Velocity.X;
-            Body.Y += (int)Velocity.Y;
+            Body.X += (int)xVelocity;
+            Body.Y += (int)yVelocity;
         }
 
     }

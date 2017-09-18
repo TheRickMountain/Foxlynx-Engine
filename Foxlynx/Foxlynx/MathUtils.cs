@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Foxlynx
 {
-    class MathUtils
+    public class MathUtils
     {
 
         public static double DegreeToRadian(double angle)

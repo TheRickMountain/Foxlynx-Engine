@@ -14,7 +14,8 @@ namespace Foxlynx
     {
         public Texture2D Texture;
         public MyRect Body;
-        public Vector2 Velocity;
+        public float xVelocity;
+        public float yVelocity;
 
         private List<Component> components;
 
@@ -22,7 +23,6 @@ namespace Foxlynx
         {
             Texture = texture;
             Body = new MyRect();
-            Velocity = new Vector2();
 
             components = new List<Component>();
         }
@@ -37,10 +37,20 @@ namespace Foxlynx
             spriteBatch.Draw(Texture, new Rectangle(Body.X, Body.Y, Body.Width, Body.Height), Color.White);
         }
 
+        public Vector2 GetPosition()
+        {
+            return new Vector2(Body.X, Body.Y);
+        }
+
         public void SetPosition(int x, int y)
         {
             Body.X = x;
             Body.Y = y;
+        }
+
+        public Vector2 GetSize()
+        {
+            return new Vector2(Body.Width, Body.Height);
         }
 
         public void SetSize(int width, int height)

@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -44,17 +44,26 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AnimatedSprite.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Components\ColliderComponent.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameplayScreen.cs" />
+    <Compile Include="GameScreen.cs" />
     <Compile Include="InputManager.cs" />
+    <Compile Include="Layer.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="MathUtils.cs" />
     <Compile Include="MyRect.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager.cs" />
+    <Compile Include="SplashScreen.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="XmlManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -65,6 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <Content Include="Load\GameplayScreen.xml" />
+    <Content Include="Load\SplashScreen.xml" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
