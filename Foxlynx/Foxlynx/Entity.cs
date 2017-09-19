@@ -8,55 +8,53 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
+using Foxlynx.Components;
+
 namespace Foxlynx
 {
     public class Entity : IComparable<Entity>
     {
         public Texture2D Texture;
-        public MyRect Body;
-        public float xVelocity;
-        public float yVelocity;
+        public int X, Y;
+        public int OffsetX, OffsetY;
+        public int Width, Height;
+        public float VelocityX, VelocityY;
 
         private List<Component> components;
 
         public Entity(Texture2D texture)
         {
             Texture = texture;
-            Body = new MyRect();
-
             components = new List<Component>();
         }
 
         public virtual void Update(GameTime gameTime)
         {
-
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, new Rectangle(Body.X, Body.Y, Body.Width, Body.Height), Color.White);
-        }
-
-        public Vector2 GetPosition()
-        {
-            return new Vector2(Body.X, Body.Y);
+            spriteBatch.Draw(Texture, new Rectangle(X - Width / 2 + OffsetX, Y - Height / 2 + OffsetY, Width, Height), 
+                Color.White);
         }
 
         public void SetPosition(int x, int y)
         {
-            Body.X = x;
-            Body.Y = y;
+            X = x;
+            Y = y;
         }
 
-        public Vector2 GetSize()
+        public void SetOffset(int x, int y)
         {
-            return new Vector2(Body.Width, Body.Height);
+            OffsetX = x;
+            OffsetY = y;
         }
 
         public void SetSize(int width, int height)
         {
-            Body.Width = width;
-            Body.Height = height;
+            Width = width;
+            Height = height;
         }
 
         public T GetComponent<T> () where T : Component
@@ -78,11 +76,23 @@ namespace Foxlynx
             components.Add(component);
         }
 
+        public bool HasComponent<T>() where T : Component
+        {
+            for (int i = 0; i < components.Count; i++)
+            {
+                var component = components[i];
+                if (component is T)
+                    return true;
+            }
+
+            return false;
+        }
+
         public int CompareTo(Entity other)
         {
-            if (other.Body.Y + other.Body.Height > Body.Y + Body.Height)
+            if (other.Y + other.Height / 2 + other.OffsetY > Y + Height / 2 + OffsetY)
                 return -1;
-            else if (other.Body.Y + other.Body.Height < Body.Y + Body.Height)
+            else if (other.Y + other.Height / 2 + other.OffsetY < Y + Height / 2 + OffsetY)
                 return 1;
             else
                 return 0;

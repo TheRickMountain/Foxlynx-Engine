@@ -14,6 +14,8 @@ namespace Foxlynx
 
         Texture2D image;
         public string Path;
+        private float alpha = 1.0f;
+        private bool transition = false;
 
         public override void LoadContent()
         {
@@ -28,16 +30,31 @@ namespace Foxlynx
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.Instance.KeyPressed(Keys.Enter))
-                ScreenManager.Instance.ChangeScreen("GameplayScreen");
+            base.Update(gameTime);
+
+            if (InputManager.Instance.KeyPressed(Keys.Enter) || InputManager.Instance.LeftButtonPressed())
+            {
+                //transition = true;
+            //}
+
+            //if(transition)
+            //{
+               // alpha -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+               // if (alpha <= 0)
+                //{
+                    ScreenManager.Instance.ChangeScreen("GameplayScreen");
+                //}
+            } 
+            
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             spriteBatch.Draw(image, new Vector2(ScreenManager.Instance.Dimension.X / 2 - image.Width / 2,
-                ScreenManager.Instance.Dimension.Y / 2 - image.Height / 2), Color.White);
+                ScreenManager.Instance.Dimension.Y / 2 - image.Height / 2), Color.White * alpha);
 
             spriteBatch.End();
         }

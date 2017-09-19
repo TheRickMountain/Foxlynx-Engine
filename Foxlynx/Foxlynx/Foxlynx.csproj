@@ -75,6 +75,9 @@
   <ItemGroup>
     <Content Include="Icon.ico" />
     <Content Include="Load\GameplayScreen.xml" />
+    <Content Include="Load\Map\Map1.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Load\SplashScreen.xml" />
   </ItemGroup>
   <ItemGroup>

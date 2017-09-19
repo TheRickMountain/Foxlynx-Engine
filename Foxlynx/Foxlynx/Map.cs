@@ -8,13 +8,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using System.Xml.Serialization;
+
 namespace Foxlynx
 {
     public class Map
     {
-
-        public List<Layer> Layer;
+        [XmlElement("TileDimensions")]
         public Vector2 TileDimensions;
+        [XmlElement("Layer")]
+        public List<Layer> Layer;
 
         public Map()
         {
@@ -22,10 +25,10 @@ namespace Foxlynx
             TileDimensions = Vector2.Zero;
         }
 
-        public void LoadContent()
+        public void LoadContent(ContentManager content)
         {
             foreach (Layer l in Layer)
-                l.LoadContent(TileDimensions);
+                l.LoadContent(content, TileDimensions);
         }
 
         public void UnloadContent()

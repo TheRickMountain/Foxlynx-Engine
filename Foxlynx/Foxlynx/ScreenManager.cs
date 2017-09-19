@@ -68,7 +68,6 @@ namespace Foxlynx
 
         public void Update(GameTime gameTime)
         {
-            InputManager.Instance.Update();
             currentScreen.Update(gameTime);
         }
 

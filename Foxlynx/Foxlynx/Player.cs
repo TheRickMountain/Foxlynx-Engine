@@ -36,11 +36,11 @@ namespace Foxlynx
             if (xaxis != 0 || yaxis != 0)
                 length = speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            xVelocity = (float)MathUtils.getLengthdirX(length, direction);
-            yVelocity = (float)MathUtils.getLengthdirY(length, direction);
+            VelocityX = (float)MathUtils.getLengthdirX(length, direction);
+            VelocityY = (float)MathUtils.getLengthdirY(length, direction);
 
-            Body.X += (int)xVelocity;
-            Body.Y += (int)yVelocity;
+            X += (int)VelocityX;
+            Y += (int)VelocityY;
         }
 
     }
