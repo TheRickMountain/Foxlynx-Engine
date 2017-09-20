@@ -44,7 +44,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnimatedSprite.cs" />
+    <Compile Include="AnimatedEntity.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Components\ColliderComponent.cs" />

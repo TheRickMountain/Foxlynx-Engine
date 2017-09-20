@@ -33,7 +33,7 @@ namespace Foxlynx
             
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, new Rectangle(X - Width / 2 + OffsetX, Y - Height / 2 + OffsetY, Width, Height), 
                 Color.White);

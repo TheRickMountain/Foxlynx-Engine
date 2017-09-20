@@ -35,13 +35,14 @@ namespace Foxlynx
 
             camera = new Camera();
 
-            /*** Player ***/
-            player = new Player(content.Load<Texture2D>("character"));
+            player = new Player();
             player.SetPosition(16, 28);
-            player.SetSize(32, 32);
-            player.SetOffset(0, -12);
-            player.AddComponent(new ColliderComponent(16, 8));
             entities.Add(player);
+
+            Entity wolf = new Entity(content.Load<Texture2D>("wolf"));
+            wolf.SetPosition(192 + 19, 128 + 16);
+            wolf.SetSize(32, 32);
+            entities.Add(wolf);
 
             Entity entity = new Entity(content.Load<Texture2D>("tree"));
             entity.SetPosition(128 + 16, 128 + 16);

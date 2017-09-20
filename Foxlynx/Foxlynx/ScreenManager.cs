@@ -37,7 +37,7 @@ namespace Foxlynx
 
         public ScreenManager()
         {
-            Dimension = new Vector2(1280, 720);
+            Dimension = new Vector2(1024, 768);
             currentScreen = new SplashScreen();
             xmlGameScreenManager = new XmlManager<GameScreen>();
             xmlGameScreenManager.Type = currentScreen.GetType();
