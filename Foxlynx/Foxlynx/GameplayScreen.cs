@@ -38,19 +38,6 @@ namespace Foxlynx
             player = new Player();
             player.SetPosition(16, 28);
             entities.Add(player);
-
-            Entity wolf = new Entity(content.Load<Texture2D>("wolf"));
-            wolf.SetPosition(192 + 19, 128 + 16);
-            wolf.SetSize(32, 32);
-            entities.Add(wolf);
-
-            Entity entity = new Entity(content.Load<Texture2D>("tree"));
-            entity.SetPosition(128 + 16, 128 + 16);
-            entity.SetSize(96, 194);
-            entity.SetOffset(0, -80);
-            entity.AddComponent(new ColliderComponent(32, 32));
-            colliders.Add(entity.GetComponent<ColliderComponent>());
-            entities.Add(entity);
         }
 
         public override void UnloadContent()

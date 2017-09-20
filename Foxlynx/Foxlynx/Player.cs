@@ -18,17 +18,47 @@ namespace Foxlynx
 
         private bool isMoving = false;
 
+        private AnimatedEntity shadow;
+
         public Player() : base(ScreenManager.Instance.Content.Load<Texture2D>("character"), 4, 6)
         {
             SetSize(Texture.Width / 6, Texture.Height / 4);
-            SetOffset(0, -12);
-            AddComponent(new ColliderComponent(16, 8));
+            SetOffset(0, -8);
+            AddComponent(new ColliderComponent(16, 6));
+
+            shadow = new AnimatedEntity(ScreenManager.Instance.Content.Load<Texture2D>("shadow"), 1, 6);
+            shadow.SetSize(shadow.Texture.Width / 6, shadow.Texture.Height);
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+            shadow.SetPosition(X, Y - 8);
+            if(isMoving)
+            {
+                shadow.FrameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if(shadow.FrameCounter >= shadow.SwitchFrame)
+                {
+                    shadow.FrameCounter = 0;
+                    shadow.CurrentFrame.X++;
+
+                    if (shadow.CurrentFrame.X * shadow.FrameWidth >= shadow.Texture.Width)
+                        shadow.CurrentFrame.X = 0;
+                }
+            }
+            else
+            {
+                shadow.CurrentFrame.X = 0;
+            }
+
+            doMovement(gameTime);
+
+            doAnimation(gameTime);
+        }
+
+        private void doMovement(GameTime gameTime)
+        {
             int xaxis = 0;
             int yaxis = 0;
 
@@ -37,7 +67,7 @@ namespace Foxlynx
                 yaxis = -1;
                 CurrentFrame.Y = 3;
             }
-            else if(InputManager.Instance.KeyDown(Keys.S))
+            else if (InputManager.Instance.KeyDown(Keys.S))
             {
                 yaxis = 1;
                 CurrentFrame.Y = 0;
@@ -70,7 +100,10 @@ namespace Foxlynx
 
             X += (int)VelocityX;
             Y += (int)VelocityY;
+        }
 
+        private void doAnimation(GameTime gameTime)
+        {
             if (isMoving)
             {
                 FrameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -85,6 +118,13 @@ namespace Foxlynx
             }
             else
                 CurrentFrame.X = 0;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            shadow.Draw(spriteBatch);
+
+            base.Draw(spriteBatch);
         }
 
     }

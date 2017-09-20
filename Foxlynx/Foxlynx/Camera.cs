@@ -39,8 +39,11 @@ namespace Foxlynx
 
         public void Update(Player player)
         {
-            position.X = (player.X + player.Width / 2) - (ScreenWidth / 2) / pixelScale;
-            position.Y = (player.Y + player.Height / 2) - (ScreenHeight / 2) / pixelScale;
+            float x = (player.X + player.Width / 2) - (ScreenWidth / 2) / pixelScale;
+            float y = (player.Y + player.Height / 2) - (ScreenHeight / 2) / pixelScale;
+
+            position.X += (x - position.X) * 0.1f;
+            position.Y += (y - position.Y) * 0.1f;
 
             if (position.X < 0)
                 position.X = 0;
