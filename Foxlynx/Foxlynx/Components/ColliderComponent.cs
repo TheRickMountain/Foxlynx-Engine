@@ -17,10 +17,13 @@ namespace Foxlynx.Components
 
         private Texture2D texture;
 
-        public ColliderComponent(int width, int height)
+        private float weight;
+
+        public ColliderComponent(int width, int height, float weight)
         {
             this.width = width;
             this.height = height;
+            this.weight = Math.Min(Math.Max(weight, 0.0f), 1.0f);
         }
 
         public override void Initialize()
@@ -28,7 +31,7 @@ namespace Foxlynx.Components
             texture = new Texture2D(Game1.graphics.GraphicsDevice, 32, 32);
         }
 
-        public bool CheckCollision(ColliderComponent other, float push)
+        public bool CheckCollision(ColliderComponent other)
         {
             Vector2 otherPosition = other.getPosition();
             Vector2 otherHalfSize = other.getHalfSize();
@@ -43,32 +46,30 @@ namespace Foxlynx.Components
 
             if (intersectX < 0.0f && intersectY < 0.0f)
             {
-                push = Math.Min(Math.Max(push, 0.0f), 1.0f);
-
                 if (intersectX > intersectY)
                 {
                     if (deltaX > 0.0f)
                     {
-                        move(intersectX * (1.0f - push), 0.0f);
-                        other.move(-intersectX * push, 0.0f);
+                        move(intersectX * (1.0f - weight), 0.0f);
+                        other.move(-intersectX * weight, 0.0f);
                     }
                     else
                     {
-                        move(-intersectX * (1.0f - push), 0.0f);
-                        other.move(intersectX * push, 0.0f);
+                        move(-intersectX * (1.0f - weight), 0.0f);
+                        other.move(intersectX * weight, 0.0f);
                     }
                 }
                 else
                 {
                     if (deltaY > 0.0f)
                     {
-                        move(0.0f, intersectY * (1.0f - push));
-                        other.move(0.0f, -intersectY * push);
+                        move(0.0f, intersectY * (1.0f - weight));
+                        other.move(0.0f, -intersectY * weight);
                     }
                     else
                     {
-                        move(0.0f, -intersectY * (1.0f - push));
-                        other.move(0.0f, intersectY * push);
+                        move(0.0f, -intersectY * (1.0f - weight));
+                        other.move(0.0f, intersectY * weight);
                     }
                 }
 
@@ -80,8 +81,8 @@ namespace Foxlynx.Components
 
         private void move(float dx, float dy)
         {
-            Parent.X += (int)dx;
-            Parent.Y += (int)dy;
+            Parent.X += dx;
+            Parent.Y += dy;
         }
 
         private Vector2 getPosition()

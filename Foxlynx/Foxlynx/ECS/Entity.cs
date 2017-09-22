@@ -15,17 +15,24 @@ namespace Foxlynx
     public class Entity : IComparable<Entity>
     {
         public Texture2D Texture;
-        public int X, Y;
+        public float X, Y;
         public int OffsetX, OffsetY;
         public int Width, Height;
         public float VelocityX, VelocityY;
+        public bool IsVisible;
 
         private List<Component> components;
 
         public Entity(Texture2D texture)
         {
             Texture = texture;
+            IsVisible = true;
             components = new List<Component>();
+        }
+
+        public virtual void Initialize()
+        {
+
         }
 
         public virtual void Update(GameTime gameTime)
@@ -35,11 +42,14 @@ namespace Foxlynx
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, new Rectangle(X - Width / 2 + OffsetX, Y - Height / 2 + OffsetY, Width, Height), 
+            if(IsVisible)
+            {
+                spriteBatch.Draw(Texture, new Rectangle((int)X - Width / 2 + OffsetX, (int)Y - Height / 2 + OffsetY, Width, Height),
                 Color.White);
+            } 
         }
 
-        public void SetPosition(int x, int y)
+        public void SetPosition(float x, float y)
         {
             X = x;
             Y = y;

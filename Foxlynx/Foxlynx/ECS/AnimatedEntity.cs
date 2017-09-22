@@ -15,6 +15,7 @@ namespace Foxlynx
         public int SwitchFrame;
         public Vector2 CurrentFrame;
         public Vector2 AmountOfFrames;
+        public bool IsMoving;
 
         public int FrameWidth
         {
@@ -37,14 +38,16 @@ namespace Foxlynx
             AmountOfFrames = new Vector2(columns, rows);
             CurrentFrame = new Vector2(0, 0);
             SwitchFrame = 100;
-            FrameCounter = 0;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, new Rectangle(X - Width / 2 + OffsetX, Y - Height / 2 + OffsetY, Width, Height),
-                new Rectangle((int)CurrentFrame.X * FrameWidth, (int)CurrentFrame.Y * FrameHeight, FrameWidth, FrameHeight),
-                Color.White);
+            if (IsVisible)
+            {
+                spriteBatch.Draw(Texture, new Rectangle((int)X - Width / 2 + OffsetX, (int)Y - Height / 2 + OffsetY, Width, Height),
+                    new Rectangle((int)CurrentFrame.X * FrameWidth, (int)CurrentFrame.Y * FrameHeight, FrameWidth, FrameHeight),
+                    Color.White);
+            }
         }
 
     }

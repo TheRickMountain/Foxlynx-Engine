@@ -20,9 +20,9 @@ namespace Foxlynx
         private static ScreenManager instance;
         public Vector2 Dimension { get; private set; }
         public ContentManager Content { get; private set; }
-        XmlManager<GameScreen> xmlGameScreenManager;
+        private XmlManager<GameScreen> xmlGameScreenManager;
 
-        GameScreen currentScreen, newScreen;
+        private GameScreen currentScreen, newScreen;
 
         public static ScreenManager Instance
         {

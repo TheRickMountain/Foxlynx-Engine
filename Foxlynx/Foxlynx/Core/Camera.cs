@@ -16,7 +16,7 @@ namespace Foxlynx
         Vector2 position;
         Matrix viewMatrix;
 
-        int pixelScale = 2;
+        int pixelScale = 3;
 
         public Camera()
         {

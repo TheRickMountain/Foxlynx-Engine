@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace Foxlynx
 {
-    public class Layer
+    public class Level
     {
 
         public class TileMap
@@ -27,36 +27,57 @@ namespace Foxlynx
         }
 
         [XmlElement("TileMap")]
-        public TileMap Tile;
+        public TileMap tileMap;
 
         [XmlElement("Path")]
         public string Path;
+        
+        [XmlIgnore]
+        public List<Tile> tiles;
 
-        List<Tile> tiles;
+        private Texture2D texture;
 
-        Texture2D texture;
 
-        public Layer()
+        private int width;
+        private int height;
+
+        public int Width
+        {
+            get
+            {
+                return width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return height;
+            }
+        }
+
+        public Level()
         {
             tiles = new List<Tile>();
         }
 
-        public void LoadContent(ContentManager content, Vector2 tileDimension)
+        public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("atlas");
 
-            Vector2 position = -tileDimension;
+            Vector2 position = -new Vector2(World.TILE_DIMENSION, World.TILE_DIMENSION);
 
-            foreach (string row in Tile.Row)
+            foreach (string row in tileMap.Row)
             {
                 string[] split = row.Split(']');
-                position.X = -tileDimension.X;
-                position.Y += tileDimension.Y;
+                position.X = -World.TILE_DIMENSION;
+                position.Y += World.TILE_DIMENSION;
                 foreach(string s in split)
                 {
                     if(s != String.Empty)
                     {
-                        position.X += tileDimension.X;
+                        position.X += World.TILE_DIMENSION;
                         tiles.Add(new Tile());
 
                         string str = s.Replace("[", String.Empty);
@@ -65,13 +86,17 @@ namespace Foxlynx
 
                         tiles[tiles.Count - 1].LoadContent(
                             position, new Rectangle(
-                                value1 * (int)tileDimension.X,
-                                value2 * (int)tileDimension.Y, 
-                                (int) tileDimension.X, 
-                                (int) tileDimension.Y));
+                                value1 * World.TILE_DIMENSION,
+                                value2 * World.TILE_DIMENSION,
+                                World.TILE_DIMENSION,
+                                World.TILE_DIMENSION));
                     }
                 }
             }
+
+
+            width = (int)(position.X / World.TILE_DIMENSION) + 1;
+            height = (int)(position.Y / World.TILE_DIMENSION) + 1;
         }
 
         public void UnloadContent()
@@ -90,6 +115,11 @@ namespace Foxlynx
             {
                 spriteBatch.Draw(texture, tile.Position, tile.SourceRect, Color.White);
             }
+        }
+
+        public Tile GetTile(int x, int y)
+        {
+            return tiles[x + width * y];
         }
 
     }

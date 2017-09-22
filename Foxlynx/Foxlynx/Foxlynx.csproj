@@ -44,26 +44,31 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnimatedEntity.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="Component.cs" />
+    <Compile Include="ECS\AnimatedEntity.cs" />
+    <Compile Include="Core\Camera.cs" />
+    <Compile Include="ECS\Cat.cs" />
+    <Compile Include="ECS\Component.cs" />
     <Compile Include="Components\ColliderComponent.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Game1.cs" />
-    <Compile Include="GameplayScreen.cs" />
-    <Compile Include="GameScreen.cs" />
-    <Compile Include="InputManager.cs" />
-    <Compile Include="Layer.cs" />
-    <Compile Include="Map.cs" />
-    <Compile Include="MathUtils.cs" />
-    <Compile Include="MyRect.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ECS\Entity.cs" />
+    <Compile Include="Core\Game1.cs" />
+    <Compile Include="ECS\World.cs" />
+    <Compile Include="Pathfinding\Heap.cs" />
+    <Compile Include="Pathfinding\Node.cs" />
+    <Compile Include="Pathfinding\PathAStar.cs" />
+    <Compile Include="Pathfinding\PathTileGraph.cs" />
+    <Compile Include="Screens\GameplayScreen.cs" />
+    <Compile Include="Core\GameScreen.cs" />
+    <Compile Include="Core\InputManager.cs" />
+    <Compile Include="Map\Level.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\MyRect.cs" />
+    <Compile Include="ECS\Player.cs" />
+    <Compile Include="Core\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenManager.cs" />
-    <Compile Include="SplashScreen.cs" />
-    <Compile Include="Tile.cs" />
-    <Compile Include="XmlManager.cs" />
+    <Compile Include="Core\ScreenManager.cs" />
+    <Compile Include="Screens\SplashScreen.cs" />
+    <Compile Include="Map\Tile.cs" />
+    <Compile Include="Utils\XmlManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -75,7 +80,7 @@
   <ItemGroup>
     <Content Include="Icon.ico" />
     <Content Include="Load\GameplayScreen.xml" />
-    <Content Include="Load\Map\Map1.xml">
+    <Content Include="Load\Map\Level1.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Load\SplashScreen.xml" />
@@ -84,6 +89,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
