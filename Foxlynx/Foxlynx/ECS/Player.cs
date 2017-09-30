@@ -25,16 +25,16 @@ namespace Foxlynx
 
         private State state = State.MOVE;
 
-        public Player() : base(new Image("player", 6, 4).SetOffset(0, -8 * World.PIXEL_SIZE))
+        public Player() : base(new Image("player", 6, 4).SetOffset(7 * World.PIXEL_SIZE, 10 * World.PIXEL_SIZE))
         {
             SetSize((image.Width / 6) * World.PIXEL_SIZE, (image.Height / 4) * World.PIXEL_SIZE);
             AddComponent(new ColliderComponent(10 * World.PIXEL_SIZE, 6 * World.PIXEL_SIZE, 0.0f));
 
             attack = new Dictionary<int, Image>();
-            attack.Add(0, new Image("player_attack_down", 7, 1));
-            attack.Add(1, new Image("player_attack_left", 7, 1).SetOffset(-8 * World.PIXEL_SIZE, -8 * World.PIXEL_SIZE));
-            attack.Add(2, new Image("player_attack_right", 7, 1).SetOffset(8 * World.PIXEL_SIZE, -8 * World.PIXEL_SIZE));
-            attack.Add(3, new Image("player_attack_up", 7, 1).SetOffset(0, -16 * World.PIXEL_SIZE));
+            attack.Add(0, new Image("player_attack_down",  7, 1).SetOffset(14 * World.PIXEL_SIZE, 10 * World.PIXEL_SIZE));
+            attack.Add(1, new Image("player_attack_left",  7, 1).SetOffset(28 * World.PIXEL_SIZE, 10 * World.PIXEL_SIZE));
+            attack.Add(2, new Image("player_attack_right", 7, 1).SetOffset(7 * World.PIXEL_SIZE,  10 * World.PIXEL_SIZE));
+            attack.Add(3, new Image("player_attack_up",    7, 1).SetOffset(14 * World.PIXEL_SIZE, 31 * World.PIXEL_SIZE));
             attack.Add(4, image);
         }
 

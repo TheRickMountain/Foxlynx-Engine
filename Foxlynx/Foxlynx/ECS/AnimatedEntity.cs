@@ -51,8 +51,8 @@ namespace Foxlynx
             if (IsVisible)
             {
                 spriteBatch.Draw(image.Texture, new Rectangle(
-                    (int)X - Width / 2 + image.offsetX, 
-                    (int)Y - Height / 2 + image.offsetY,
+                    (int)X - image.offsetX, 
+                    (int)Y - image.offsetY,
                     Width, Height),
                     new Rectangle((int)CurrentFrame.X * FrameWidth, (int)CurrentFrame.Y * FrameHeight, FrameWidth, FrameHeight),
                     Color.White);

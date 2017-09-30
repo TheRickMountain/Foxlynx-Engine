@@ -55,7 +55,7 @@ namespace Foxlynx
 
             if (InputManager.Instance.KeyPressed(Keys.G))
             {
-                cat.SetDestTile(world.level.GetTile(5, 10));
+                cat.SetDestTile(world.level.GetTile(10, 10));
             }
         }
 

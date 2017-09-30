@@ -23,7 +23,7 @@ namespace Foxlynx.ECS
         private float movementPerc;
         private float speed = 2f;
 
-        public Cat() : base(new Image("cat", 3, 4).SetOffset(0, -8 * World.PIXEL_SIZE))
+        public Cat() : base(new Image("cat", 3, 4).SetOffset(16 * World.PIXEL_SIZE, 20 * World.PIXEL_SIZE))
         {
             SetSize((image.Width / 3) * World.PIXEL_SIZE, (image.Height / 4) * World.PIXEL_SIZE);
             SwitchFrame = 150;
