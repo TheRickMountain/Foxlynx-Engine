@@ -18,7 +18,9 @@ namespace Foxlynx
 
         private static World instance;
 
-        public const int TILE_DIMENSION = 16;
+        public const int SPRITE_DIMENSION = 16;
+        public const int PIXEL_SIZE = 3;
+        public const int TOTAL_DIMENSION = SPRITE_DIMENSION * PIXEL_SIZE;
 
         public Camera camera;
         public Level level;

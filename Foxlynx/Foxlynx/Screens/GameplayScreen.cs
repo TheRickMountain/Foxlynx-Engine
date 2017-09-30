@@ -32,13 +32,13 @@ namespace Foxlynx
             world.LoadContent(content);
 
             Player = new Player();
-            Tile tile = world.level.GetTile(18, 10);
-            Player.SetPosition(tile.Position.X + World.TILE_DIMENSION / 2, tile.Position.Y + World.TILE_DIMENSION / 2);
+            Tile tile = world.level.GetTile(1, 1);
+            Player.SetPosition(tile.Position.X + World.TOTAL_DIMENSION / 2, tile.Position.Y + World.TOTAL_DIMENSION / 2);
             World.Instance.AddEntity(Player);
 
             cat = new Cat();
-            tile = world.level.GetTile(0, 0);
-            cat.SetPosition(tile.Position.X + World.TILE_DIMENSION / 2, tile.Position.Y + World.TILE_DIMENSION / 2);
+            tile = world.level.GetTile(5, 0);
+            cat.SetPosition(tile.Position.X + World.TOTAL_DIMENSION / 2, tile.Position.Y + World.TOTAL_DIMENSION / 2);
             World.Instance.AddEntity(cat);
         }
 
@@ -55,7 +55,7 @@ namespace Foxlynx
 
             if (InputManager.Instance.KeyPressed(Keys.G))
             {
-                cat.SetDestTile(world.level.GetTile(5, 5));
+                cat.SetDestTile(world.level.GetTile(5, 10));
             }
         }
 

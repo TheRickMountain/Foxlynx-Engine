@@ -13,6 +13,7 @@ namespace Foxlynx
 
         public int FrameCounter;
         public int SwitchFrame;
+        public int DefaultFrame;
         public Vector2 CurrentFrame;
         public Vector2 AmountOfFrames;
         public bool IsMoving;
@@ -21,7 +22,7 @@ namespace Foxlynx
         {
             get
             {
-                return Texture.Width / (int)AmountOfFrames.X;
+                return image.Width / (int)AmountOfFrames.X;
             }
         }
 
@@ -29,25 +30,59 @@ namespace Foxlynx
         {
             get
             {
-                return Texture.Height / (int)AmountOfFrames.Y;
+                return image.Height / (int)AmountOfFrames.Y;
             }
         }
 
-        public AnimatedEntity(Texture2D texture, int rows, int columns) : base(texture)
+        public AnimatedEntity(Image image) : base(image)
         {
-            AmountOfFrames = new Vector2(columns, rows);
-            CurrentFrame = new Vector2(0, 0);
+            AmountOfFrames = new Vector2(image.Column, image.Row);
+            CurrentFrame = Vector2.Zero;
             SwitchFrame = 100;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            DoAnimation(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (IsVisible)
             {
-                spriteBatch.Draw(Texture, new Rectangle((int)X - Width / 2 + OffsetX, (int)Y - Height / 2 + OffsetY, Width, Height),
+                spriteBatch.Draw(image.Texture, new Rectangle(
+                    (int)X - Width / 2 + image.offsetX, 
+                    (int)Y - Height / 2 + image.offsetY,
+                    Width, Height),
                     new Rectangle((int)CurrentFrame.X * FrameWidth, (int)CurrentFrame.Y * FrameHeight, FrameWidth, FrameHeight),
                     Color.White);
             }
+        }
+
+        public override void SetImage(Image image)
+        {
+            base.SetImage(image);
+            AmountOfFrames.X = image.Column;
+            AmountOfFrames.Y = image.Row;
+            SetSize(FrameWidth * World.PIXEL_SIZE, FrameHeight * World.PIXEL_SIZE);
+        }
+
+        public void DoAnimation(GameTime gameTime)
+        {
+            if (IsMoving)
+            {
+                FrameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (FrameCounter >= SwitchFrame)
+                {
+                    FrameCounter = 0;
+                    CurrentFrame.X++;
+
+                    if (CurrentFrame.X * FrameWidth >= image.Width)
+                        CurrentFrame.X = 0;
+                }
+            }
+            else
+                CurrentFrame.X = DefaultFrame;
         }
 
     }

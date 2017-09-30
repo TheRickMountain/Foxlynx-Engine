@@ -66,18 +66,18 @@ namespace Foxlynx
         {
             texture = content.Load<Texture2D>("atlas");
 
-            Vector2 position = -new Vector2(World.TILE_DIMENSION, World.TILE_DIMENSION);
+            Vector2 position = -new Vector2(World.TOTAL_DIMENSION, World.TOTAL_DIMENSION);
 
             foreach (string row in tileMap.Row)
             {
                 string[] split = row.Split(']');
-                position.X = -World.TILE_DIMENSION;
-                position.Y += World.TILE_DIMENSION;
+                position.X = -World.TOTAL_DIMENSION;
+                position.Y += World.TOTAL_DIMENSION;
                 foreach(string s in split)
                 {
                     if(s != String.Empty)
                     {
-                        position.X += World.TILE_DIMENSION;
+                        position.X += World.TOTAL_DIMENSION;
                         tiles.Add(new Tile());
 
                         string str = s.Replace("[", String.Empty);
@@ -86,17 +86,17 @@ namespace Foxlynx
 
                         tiles[tiles.Count - 1].LoadContent(
                             position, new Rectangle(
-                                value1 * World.TILE_DIMENSION,
-                                value2 * World.TILE_DIMENSION,
-                                World.TILE_DIMENSION,
-                                World.TILE_DIMENSION));
+                                value1 * World.SPRITE_DIMENSION,
+                                value2 * World.SPRITE_DIMENSION,
+                                World.SPRITE_DIMENSION,
+                                World.SPRITE_DIMENSION));
                     }
                 }
             }
 
 
-            width = (int)(position.X / World.TILE_DIMENSION) + 1;
-            height = (int)(position.Y / World.TILE_DIMENSION) + 1;
+            width = (int)(position.X / World.TOTAL_DIMENSION) + 1;
+            height = (int)(position.Y / World.TOTAL_DIMENSION) + 1;
         }
 
         public void UnloadContent()
@@ -113,7 +113,9 @@ namespace Foxlynx
         {
             foreach(Tile tile in tiles)
             {
-                spriteBatch.Draw(texture, tile.Position, tile.SourceRect, Color.White);
+                spriteBatch.Draw(texture, new Rectangle((int)tile.Position.X, (int)tile.Position.Y, 
+                    World.TOTAL_DIMENSION, World.TOTAL_DIMENSION), 
+                    tile.SourceRect, Color.White);
             }
         }
 

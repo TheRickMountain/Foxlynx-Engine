@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Foxlynx.Pathfinding
 {
-    class PathAStar
+    public class PathAStar
     {
         private Stack<Tile> path;
 

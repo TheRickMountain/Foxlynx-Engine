@@ -15,8 +15,6 @@ namespace Foxlynx.Components
         
         private int width, height;
 
-        private Texture2D texture;
-
         private float weight;
 
         public ColliderComponent(int width, int height, float weight)
@@ -24,11 +22,6 @@ namespace Foxlynx.Components
             this.width = width;
             this.height = height;
             this.weight = Math.Min(Math.Max(weight, 0.0f), 1.0f);
-        }
-
-        public override void Initialize()
-        {
-            texture = new Texture2D(Game1.graphics.GraphicsDevice, 32, 32);
         }
 
         public bool CheckCollision(ColliderComponent other)

@@ -23,17 +23,17 @@ namespace Foxlynx.ECS
         private float movementPerc;
         private float speed = 2f;
 
-        public Cat() : base(ScreenManager.Instance.Content.Load<Texture2D>("cat"), 4, 3)
+        public Cat() : base(new Image("cat", 3, 4).SetOffset(0, -8 * World.PIXEL_SIZE))
         {
-            SetSize(Texture.Width / 3, Texture.Height / 4);
-            SetOffset(0, -8);
+            SetSize((image.Width / 3) * World.PIXEL_SIZE, (image.Height / 4) * World.PIXEL_SIZE);
             SwitchFrame = 150;
-            AddComponent(new ColliderComponent(16, 16, 0.0f));
+            DefaultFrame = 1;
+            AddComponent(new ColliderComponent(16 * World.PIXEL_SIZE, 16 * World.PIXEL_SIZE, 0.0f));
         }
 
         public override void Initialize()
         {
-            currTile = destTile = nextTile = World.Instance.level.GetTile((int)(X / World.TILE_DIMENSION), (int)(Y / World.TILE_DIMENSION));
+            currTile = destTile = nextTile = World.Instance.level.GetTile((int)(X / World.TOTAL_DIMENSION), (int)(Y / World.TOTAL_DIMENSION));
         }
 
         public override void Update(GameTime gameTime)
@@ -48,14 +48,12 @@ namespace Foxlynx.ECS
             if (currTile.Equals(destTile))
             {
                 pathAStar = null;
+                IsMoving = false;
                 return;
             }
 
             if(nextTile.Equals(currTile))
-            {
                 nextTile = pathAStar.NextTile;
-                Console.WriteLine(nextTile.X + " " + nextTile.Y);
-            }
   
             float distToTravel = MathUtils.Distance(currTile.X, currTile.Y, nextTile.X, nextTile.Y);
 
@@ -65,46 +63,55 @@ namespace Foxlynx.ECS
 
             movementPerc += percThisFrame;
 
-            if(movementPerc >= 1)
+            int direction = (int)MathUtils.Direction(currTile.X, currTile.Y, nextTile.X, nextTile.Y);
+
+            switch(direction)
+            {
+                case 315:
+                case 0:
+                case 45:
+                    CurrentFrame.Y = 2;
+                    break;
+                case 90:
+                    CurrentFrame.Y = 0;
+                    break;
+                case 135:
+                case 180:
+                case 225:
+                    CurrentFrame.Y = 1;
+                    break;
+                case 270:
+                    CurrentFrame.Y = 3;
+                    break;
+            }
+
+            if (movementPerc >= 1)
             {
                 currTile = nextTile;
                 movementPerc = 0;
             }
 
-            X = MathUtils.Lerp(currTile.Position.X, nextTile.Position.X, movementPerc) + World.TILE_DIMENSION / 2;
-            Y = MathUtils.Lerp(currTile.Position.Y, nextTile.Position.Y, movementPerc) + World.TILE_DIMENSION / 2;
+            X = MathUtils.Lerp(currTile.Position.X, nextTile.Position.X, movementPerc) + World.TOTAL_DIMENSION / 2;
+            Y = MathUtils.Lerp(currTile.Position.Y, nextTile.Position.Y, movementPerc) + World.TOTAL_DIMENSION / 2;
+
         }
 
         public void SetDestTile(Tile tile)
         {
             if(tile.MovementCost == 1.0f)
             {
-                currTile = nextTile = World.Instance.level.GetTile((int)(X / World.TILE_DIMENSION), (int)(Y / World.TILE_DIMENSION));
+                currTile = nextTile = World.Instance.level.GetTile((int)(X / World.TOTAL_DIMENSION), (int)(Y / World.TOTAL_DIMENSION));
                 pathAStar = new PathAStar(currTile, tile);
                 if (pathAStar.Length != -1)
                 {
                     destTile = tile;
+                    IsMoving = true;
+                }
+                else
+                {
+                    pathAStar = null;
                 }
             }     
-        }
-
-
-        private void DoAnimation(GameTime gameTime)
-        {
-            if (IsMoving)
-            {
-                FrameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (FrameCounter >= SwitchFrame)
-                {
-                    FrameCounter = 0;
-                    CurrentFrame.X++;
-
-                    if (CurrentFrame.X * FrameWidth >= Texture.Width)
-                        CurrentFrame.X = 0;
-                }
-            }
-            else
-                CurrentFrame.X = 1;
         }
 
     }

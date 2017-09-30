@@ -44,6 +44,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Image.cs" />
     <Compile Include="ECS\AnimatedEntity.cs" />
     <Compile Include="Core\Camera.cs" />
     <Compile Include="ECS\Cat.cs" />

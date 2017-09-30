@@ -14,25 +14,58 @@ namespace Foxlynx
     public class Player : AnimatedEntity
     {
 
-        private int speed = 50;
-
-        public Player() : base(ScreenManager.Instance.Content.Load<Texture2D>("character"), 4, 6)
+        private enum State
         {
-            SetSize(Texture.Width / 6, Texture.Height / 4);
-            SetOffset(0, -8);
-            AddComponent(new ColliderComponent(10, 6, 0.0f));
+            MOVE, ATTACK
+        }
+
+        private float speed = 150f;
+
+        private Dictionary<int, Image> attack;
+
+        private State state = State.MOVE;
+
+        public Player() : base(new Image("player", 6, 4).SetOffset(0, -8 * World.PIXEL_SIZE))
+        {
+            SetSize((image.Width / 6) * World.PIXEL_SIZE, (image.Height / 4) * World.PIXEL_SIZE);
+            AddComponent(new ColliderComponent(10 * World.PIXEL_SIZE, 6 * World.PIXEL_SIZE, 0.0f));
+
+            attack = new Dictionary<int, Image>();
+            attack.Add(0, new Image("player_attack_down", 7, 1));
+            attack.Add(1, new Image("player_attack_left", 7, 1).SetOffset(-8 * World.PIXEL_SIZE, -8 * World.PIXEL_SIZE));
+            attack.Add(2, new Image("player_attack_right", 7, 1).SetOffset(8 * World.PIXEL_SIZE, -8 * World.PIXEL_SIZE));
+            attack.Add(3, new Image("player_attack_up", 7, 1).SetOffset(0, -16 * World.PIXEL_SIZE));
+            attack.Add(4, image);
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            int attackKey = InputManager.Instance.LeftButtonPressed() ? 1 : 0;
+            if(attackKey == 1)
+            {
+                state = State.ATTACK;
+                Console.WriteLine(CurrentFrame.Y);
+                SetImage(attack[(int)CurrentFrame.Y]);
+                IsMoving = true;
+                CurrentFrame.X = 0;
+                CurrentFrame.Y = 0;
+            }
 
-            doMovement(gameTime);
 
-            doAnimation(gameTime);
+            switch(state)
+            {
+                case State.MOVE:
+                    Move(gameTime);
+                    break;
+                case State.ATTACK:
+                    Attack();
+                    break;
+            }
+
+            DoAnimation(gameTime);
         }
 
-        private void doMovement(GameTime gameTime)
+        private void Move(GameTime gameTime)
         {
             int upKey = InputManager.Instance.KeyDown(Keys.W) ? 1 : 0;
             int downKey = InputManager.Instance.KeyDown(Keys.S) ? 1 : 0;
@@ -70,22 +103,14 @@ namespace Foxlynx
                 CurrentFrame.Y = 2;
         }
 
-        private void doAnimation(GameTime gameTime)
+        private void Attack()
         {
-            if (IsMoving)
+            if(CurrentFrame.X == image.Column - 1)
             {
-                FrameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (FrameCounter >= SwitchFrame)
-                {
-                    FrameCounter = 0;
-                    CurrentFrame.X++;
-
-                    if (CurrentFrame.X * FrameWidth >= Texture.Width)
-                        CurrentFrame.X = 0;
-                }
+                IsMoving = false;
+                state = State.MOVE;
+                SetImage(attack[4]);
             }
-            else
-                CurrentFrame.X = 0;
         }
 
     }

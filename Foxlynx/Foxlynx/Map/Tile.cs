@@ -55,8 +55,8 @@ namespace Foxlynx
         public void LoadContent(Vector2 position, Rectangle sourceRect)
         {
             this.position = position;
-            x = (int)(position.X / World.TILE_DIMENSION);
-            y = (int)(position.Y / World.TILE_DIMENSION);
+            x = (int)(position.X / World.TOTAL_DIMENSION);
+            y = (int)(position.Y / World.TOTAL_DIMENSION);
             this.sourceRect = sourceRect;
             walkable = true;
         }

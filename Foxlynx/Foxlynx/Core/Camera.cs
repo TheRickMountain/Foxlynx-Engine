@@ -16,8 +16,6 @@ namespace Foxlynx
         Vector2 position;
         Matrix viewMatrix;
 
-        int pixelScale = 3;
-
         public Camera()
         {
         }
@@ -39,8 +37,8 @@ namespace Foxlynx
 
         public void Update(Player player)
         {
-            float x = (player.X + player.Width / 2) - (ScreenWidth / 2) / pixelScale;
-            float y = (player.Y + player.Height / 2) - (ScreenHeight / 2) / pixelScale;
+            float x = (player.X + player.Width / 2) - (ScreenWidth / 2);
+            float y = (player.Y + player.Height / 2) - (ScreenHeight / 2);
 
             position.X += (x - position.X) * 0.1f;
             position.Y += (y - position.Y) * 0.1f;
@@ -50,7 +48,7 @@ namespace Foxlynx
             if (position.Y < 0)
                 position.Y = 0;         
 
-            viewMatrix = Matrix.CreateTranslation(new Vector3(-position, 0)) * Matrix.CreateScale(pixelScale);
+            viewMatrix = Matrix.CreateTranslation(new Vector3(-(int)position.X, -(int)position.Y, 0));
         }
     }
 }

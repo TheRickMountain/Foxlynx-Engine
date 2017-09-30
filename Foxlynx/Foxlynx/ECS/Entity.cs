@@ -10,22 +10,22 @@ using Microsoft.Xna.Framework.Content;
 
 using Foxlynx.Components;
 
+
 namespace Foxlynx
 {
     public class Entity : IComparable<Entity>
     {
-        public Texture2D Texture;
+        public Image image;
         public float X, Y;
-        public int OffsetX, OffsetY;
         public int Width, Height;
         public float VelocityX, VelocityY;
         public bool IsVisible;
 
         private List<Component> components;
 
-        public Entity(Texture2D texture)
+        public Entity(Image image)
         {
-            Texture = texture;
+            this.image = image;
             IsVisible = true;
             components = new List<Component>();
         }
@@ -44,21 +44,23 @@ namespace Foxlynx
         {
             if(IsVisible)
             {
-                spriteBatch.Draw(Texture, new Rectangle((int)X - Width / 2 + OffsetX, (int)Y - Height / 2 + OffsetY, Width, Height),
+                spriteBatch.Draw(image.Texture, new Rectangle(
+                    (int)X - Width / 2 + image.offsetX, 
+                    (int)Y - Height / 2 + image.offsetY, 
+                    Width, Height),
                 Color.White);
             } 
+        }
+
+        public virtual void SetImage(Image image)
+        {
+            this.image = image;
         }
 
         public void SetPosition(float x, float y)
         {
             X = x;
             Y = y;
-        }
-
-        public void SetOffset(int x, int y)
-        {
-            OffsetX = x;
-            OffsetY = y;
         }
 
         public void SetSize(int width, int height)
@@ -100,9 +102,9 @@ namespace Foxlynx
 
         public int CompareTo(Entity other)
         {
-            if (other.Y + other.Height / 2 + other.OffsetY > Y + Height / 2 + OffsetY)
+            if (other.Y + other.Height / 2 + other.image.offsetY > Y + Height / 2 + image.offsetY)
                 return -1;
-            else if (other.Y + other.Height / 2 + other.OffsetY < Y + Height / 2 + OffsetY)
+            else if (other.Y + other.Height / 2 + other.image.offsetY < Y + Height / 2 + image.offsetY)
                 return 1;
             else
                 return 0;
